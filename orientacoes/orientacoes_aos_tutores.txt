@@ -1,0 +1,103 @@
+AI-0083
+-------
+
+Objetivo da Atividade Interativa (AI): explorar o pêndulo simples e o Movimento Harmônico Simples (MHS), comparando-os.
+
+Objetivo do usuário: responder corretamente os exercícios.
+
+---
+
+Resolução do exercício 1: primeiramente o usuário deve colocar o pêndulo para oscilar com 10º de amplitude (isso conta pontos também). Para isso posicione o centro do transferidor (botão na base da janela, à esquerda) no pivô do pêndulo e arraste o pêndulo até 10º, soltando-o para começar a animação.
+
+Em seguida o usuário deve MEDIR o tempo da oscilação e informá-lo no campo apropriado. Para isso ele pode utilizar um cronômetro próprio ou aquele disponibilizado na própria janela da animação (botão com o ícone de um cronômetro). 
+
+Note que o processo de medição também pode ser alvo de discussões úteis. Por exemplo, é melhor medir um período completo ou medir dois períodos e dividir o por dois? Ou ainda, é melhor começar a medir com o pêndulo no seu ponto mais alto ou no seu ponto mais baixo? Qual a relação disso com o tempo de reação do usuário?
+
+É importante observar que o resultado dessa medição dependerá dos parâmetros da janela de configuração
+
+A AI aceita um erro de até 10% sobre o valor esperado (inclusive da amplitude de oscilação).
+
+---
+
+Resolução do exercício 2: agora o usuário deve CALCULAR o período do pêndulo (T), conforme previsto pelo modelo do Movimento Harmônico Simples (que decorre da aproximação para ângulos pequenos): T = 2π*raiz(L/g). Os parâmetros L (comprimento da haste) e g (aceleração da gravidade) podem ser obtidos na janela de configurações. Para acessá-la, pressione o botão com as engrenagens, na base da janela da animação.
+
+O importante aqui é o usuário perceber a proximidade entre este resultado CALCULADO e aquele MEDIDO (exercício 1). E isto pode ser feito diversas vezes para valores diferentes de L e g (a AI considerará para a nota apenas a primeira tentativa).
+
+A AI aceita um erro de até 10% sobre o valor esperado.
+
+---
+
+Resolução do exercício 3: o erro cometido na aproximação de ângulos pequenos é simplesmente |sen(θ) - θ|, onde θ é o ângulo entre a haste do pêndulo e uma reta vertical qualquer. Sabemos que o limite de sen(θ) com θ -> 0 é θ. Logo, podemos concluir que à medida que θ se afasta de zero, θ torna-se cada vez mais diferente de sen(θ). Assim, o erro MÁXIMO ocorre quando θ for máximo. Na condição dos exercícios 1 a 3 o valor máximo de θ é 10º, ou 0,17 rad. Portanto o resultado é
+
+|sen(0,17) - 0,17| = 0,0009 rad
+
+A AI aceita um erro de até 10% sobre o valor esperado.
+
+---
+
+Resolução do exercício 4: neste exercício o usuário deve expressar o movimento oscilatório dos exercícios 1 a 4 na forma θ(t) = A cos(ωt + φ), onde θ é o ângulo entre a haste do pêndulo e uma linha vertical imaginária qualquer.
+
+Para resolver precisamos usar a condição inicial θ(0) = 0,17 rad (=10º) e θ'(0) = dθ(0)/dt = 0. Ou seja,
+
+θ(0) = A cos(φ) = 0,17 rad 
+θ'(0) = -ωA sen(φ) = 0 rad/s
+
+Da segunda equação conclui-se que φ = 0 rad e, por conseguinte, da primeira, que A = 0,17 rad. Resta determinar ω, que pode ser determinado usando-se a periodicidade do movimento ou, mais diretamente, lembrando que ω = 2π/T e que T é o período da oscilação, que calculamos há pouco. Então a resposta é
+
+θ(t) = 0,17 cos(1,41 t)
+
+*Atenção*: por se tratar de um resultado que usa a animação do pêndulo como base (depende inclusive dos parâmetros escolhidos pelo usuário), é importante que o pêndulo esteja em movimento ao pressionar "terminei". Caso contrário o resultado esperado seria 0, pois o pêndulo estaria parado.
+
+A AI aceita um erro de até 10% sobre o valor esperado.
+
+---
+
+Resolução do exercício 5: a velocidade angular do pêndulo, em qualquer tempo, é dada pela derivada de θ(t) obtido no exercício anterior: θ'(t) = -0,25 sen(1,41 t). Dela podemos concluir que a velocidade angular máxima ocorre quando sen(1,41 t) é máximo, ou seja, igual a 1. Logo, max |θ'(t)| = 0,25 rad/s. Para obter a velocidade linear máxima basta multiplicar pelo comprimento da haste (L), pois v = ωL.
+
+*Atenção*: por se tratar de um resultado que usa a animação do pêndulo como base (depende inclusive dos parâmetros escolhidos pelo usuário), é importante que o pêndulo esteja em movimento ao pressionar "terminei". Caso contrário o resultado esperado seria 0, pois o pêndulo estaria parado.
+
+A AI aceita um erro de até 10% sobre o valor esperado.
+
+---
+
+Resolução do exercício 6: com o pêndulo em movimento, abra a janela que contém o espaço de fases do pêndulo. Para isso, pressione o botão com o ícone de um gráfico e, em seguida, escolha a opção θ'(θ). Aguarde até que o gráfico apresente um período completo e, em seguida, leia o valor máximo no eixo x (=θ); o ângulo máximo da oscilão, bem como o valor máximo no eixo y (=θ'); a velocidade angular máxima.
+
+Provavelmente será necessário ampliar o gráfico para poder vê-lo melhor. Para isso, use a roda do mouse (use-a com a tecla shift pressionada, caso a tela da AI role para cima ou para baixo ao invés de ampliar o gráfico).
+
+Os valores encontrados neste gráfico devem ser similares àqueles obtidos no exercício anterior.
+
+*Atenção*: por se tratar de um resultado que usa a animação do pêndulo como base (depende inclusive dos parâmetros escolhidos pelo usuário), é importante que o pêndulo esteja em movimento ao pressionar "terminei". Caso contrário o resultado esperado seria 0, pois o pêndulo estaria parado.
+
+A AI aceita um erro de até 10% sobre o valor esperado.
+
+---
+
+Resolução do exercício 7: este exercício não envolve a animação; serve apenas para fixar o procedimento usado no exercício 4. Basta refazê-lo, com a condição inicial dada, para obter a resposta, tomando o cuidado de converter de graus para radianos.
+
+---
+
+Resolução do exercício 8: proceda como no exercício 1, colocando o pêndulo para oscilar com 90º de amplitude e medindo o período. O resultado deve ser bastante diferente daquele previsto pelo modelo do Movimento Harmônico Simples (que independe da amplitude da oscilação), haja vista que o modelo só vale para oscilações pequenas, onde podemos aproximar sen(θ) por θ.
+
+*Atenção*: por se tratar de um resultado que usa a animação do pêndulo como base (depende inclusive dos parâmetros escolhidos pelo usuário), é importante que o pêndulo esteja em movimento ao pressionar "terminei". Caso contrário o resultado esperado seria 0, pois o pêndulo estaria parado.
+
+A AI aceita um erro de até 10% sobre o valor esperado.
+
+---
+
+Resolução do exercício 9: o erro máximo para a oscilação de 90º, analogamente ao que foi discutido no exercício 3, é |sen(π/2) - π/2| = 0,57 rad, 634 vezes maior que no caso da oscilação de 10º (veja o resultado do exercício 3).
+
+*Atenção*: por se tratar de um resultado que usa a animação do pêndulo como base (depende inclusive dos parâmetros escolhidos pelo usuário), é importante que o pêndulo esteja em movimento ao pressionar "terminei". Caso contrário o resultado esperado seria 0, pois o pêndulo estaria parado.
+
+A AI aceita um erro de até 10% sobre o valor esperado.
+
+---
+
+Resolução do exercício 10: ao entrar no exercício 10 a AI automaticamente coloca o pêndulo para oscilar numa configuração de ângulo pequeno (de modo que vale o modelo do Movimento Harmônico Simples), mas com a aceleração da gravidade ajustada para a de algum planeta do sistema solar. A tarefa do usuário é identificar este planeta.
+
+Para isso ele deve medir o período do movimento (T) e, com o comprimento da haste (L) na janela de configuração da animação, deve calcular a aceleração da gravidade (g). Com este valor em mãos ele pode procurar na Internet pelo planeta cuja gravidade mais se aproxima do g calculado. O planeta é Júpiter (sempre).
+
+obs.: normalmente a janela de configuração da animação apresenta também a gravidade. Mas neste exercício em particular ela é ocultada para que o usuário seja obrigado a calculá-la através da relação T = 2π*raiz(L/g).
+
+Observações:
+1) Esta AI usa SCORM para notificar o LMS (moodle) quanto ao aproveitamento do usuário, numa escala de 0 a 100 (inteiros apenas). Este recurso é ativado quando o usuário seleciona a opção "valendo nota". 
+2) Para orientações quanto às intereções com a AI, veja o menu de orientações (botão "?").
