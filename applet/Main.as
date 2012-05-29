@@ -254,8 +254,8 @@ package
 			parametros.addEventListener("CANCEL_PRESSED", cancelPressed);
 			
 			menu.addEventListener(MouseEvent.CLICK, menuClickHndler);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, initPenduloMove);
-			stage.addEventListener(MouseEvent.MOUSE_WHEEL, changeScalePendulo);
+			//stage.addEventListener(MouseEvent.MOUSE_DOWN, initPenduloMove);
+			//stage.addEventListener(MouseEvent.MOUSE_WHEEL, changeScalePendulo);
 			
 			stage.addEventListener(MouseEvent.MOUSE_OVER, setInfo);
 			stage.addEventListener(MouseEvent.MOUSE_OUT, setInfoOut);
