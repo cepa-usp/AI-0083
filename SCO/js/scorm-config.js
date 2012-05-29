@@ -38,28 +38,13 @@ function uninit () {
   }
 }  
   
-  /* TESTE */  
-  /*ai.getPeriodo = function () {return 4.4;};
-  ai.getComprimento = function () {return 5;};
-  ai.getGravidade = function () {return 10;};
-  ai.getTeta = function () {return 10;};
-  ai.getMaxVelAngular = function () {return 0.25;};
-  ai.showHideMHS = function (visible) { console.log("Esconde o MHS"); };
-  ai.setGravity = function (g) { console.log("Gravidade -> " + g);};
-  ai.hideGravidade = function () {console.log("Esconde gravidade");};
-  ai.playAnimation = function () {console.log("Play animação");};
-  ai.showHideGravidade = function () {};
-  ai.getVelocidade = function () {return 0.1;};
-  ai.setTeta = function (t) {console.log("Define theta = 10");};*/
-  /* TESTE */
-  
-
 function configAi () {
 	
 	var flashvars = {};
 	flashvars.ai = "swf/AI-0083.swf";
-	flashvars.width = "550";
-	flashvars.height = "400";
+	flashvars.width = "700";
+	flashvars.height = "500";
+	//flashvars.disable = "RESET_BUTTON,TUTORIAL_BUTTON";
 		
 	var params = {};
 	params.menu = "false";
@@ -74,39 +59,6 @@ function configAi () {
 	
   //Deixa a aba "Orientações" ativa no carregamento da atividade
   $('#exercicios').tabs({ selected: 0 });
-
-
-  // Habilita/desabilita a visualização da mediatriz
-  $('#exercicios').tabs({
-    select: function(event, ui) {
-    
-      screenExercise = ui.index;  
-	  selectExercise(screenExercise);
-	  
-	  ai.showHideMHS(false);
-        
-        if (screenExercise == 6) {
-          ai.showHideGravidade(true);
-          
-          if (Math.abs(ai.getTeta() - 10) < 1) {
-            ai.setTeta(10);
-            ai.playAnimation();
-          }
-        }
-        else if (screenExercise == 10) {
-          ai.setTeta(10);
-          ai.setGravity(22.9);
-          ai.showHideGravidade(false);
-          ai.playAnimation();
-        }
-        else {
-          ai.showHideGravidade(true);
-        }
-	  
- 
-	  
-    }
-  });
   
   // Configurações dos botões em geral
   $('.check-button').button().click(evaluateExercise);
@@ -216,10 +168,11 @@ function selectExercise (exercise) {
 function checkCallbacks () {
 	var t2 = new Date().getTime();
 	ai = document.getElementById("ai");
+	var exOk = false;
 	try {
 		ai.doNothing();
 		message("swf ok!");
-		iniciaAtividade();
+		exOk = true;
 	}
 	catch(error) {
 		++init_tries;
@@ -232,6 +185,8 @@ function checkCallbacks () {
 			setTimeout("checkCallbacks()", 1000);
 		}
 	}
+	
+	if(exOk) iniciaAtividade();
 }
 
 
@@ -243,8 +198,37 @@ function getAi(){
 // Inicia a AI.
 function iniciaAtividade(){       
   
-  //INICIALIZA A ATIVIDADE 
-  //applyAndSortFunctions();  
+   // Habilita/desabilita a visualização da mediatriz
+  $('#exercicios').tabs({
+    select: function(event, ui) {
+    
+      screenExercise = ui.index;  
+	  selectExercise(screenExercise);
+	  
+	  ai.showHideMHS(false);
+        
+        if (screenExercise == 6) {
+          ai.showHideGravidade(true);
+          
+          if (Math.abs(ai.getTeta() - 10) < 1) {
+            ai.setTeta(10);
+            ai.playAnimation();
+          }
+        }
+        else if (screenExercise == 10) {
+          ai.setTeta(10);
+          ai.setGravity(22.9);
+          ai.showHideGravidade(false);
+          ai.playAnimation();
+        }
+        else {
+          ai.showHideGravidade(true);
+        }
+	  
+ 
+	  
+    }
+  });
 
   //Textfields aceitam apenas número, ponto e vírgula.
   $('input').keyup(function(e) {
