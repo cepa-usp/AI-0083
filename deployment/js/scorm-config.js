@@ -44,7 +44,7 @@ function configAi () {
 	flashvars.ai = "swf/AI-0083.swf";
 	flashvars.width = "700";
 	flashvars.height = "500";
-	//flashvars.disable = "RESET_BUTTON,TUTORIAL_BUTTON";
+	flashvars.disable = "RESET_BUTTON,TUTORIAL_BUTTON";
 		
 	var params = {};
 	params.menu = "false";
