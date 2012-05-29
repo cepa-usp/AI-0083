@@ -85,6 +85,9 @@ package
 					ExternalInterface.addCallback("playAnimation", playAnimation);
 					ExternalInterface.addCallback("showHideGravidade", showHideGravidade);
 					ExternalInterface.addCallback("doNothing", doNothing);
+					
+					ExternalInterface.addCallback("pause", flashDeactive);
+					ExternalInterface.addCallback("play", flashActive);
                 }
 				catch (error:SecurityError)
 				{
@@ -260,15 +263,15 @@ package
 			stage.addEventListener(MouseEvent.MOUSE_OVER, setInfo);
 			stage.addEventListener(MouseEvent.MOUSE_OUT, setInfoOut);
 			
-			stage.addEventListener(Event.ACTIVATE, flashActive);
-			stage.addEventListener(Event.DEACTIVATE, flashDeactive);
+			//stage.addEventListener(Event.ACTIVATE, flashActive);
+			//stage.addEventListener(Event.DEACTIVATE, flashDeactive);
 			
 		}
 		
 		private var paused:Boolean = false;
 		private var cronPused:Boolean = false;
 		
-		private function flashActive(e:Event):void 
+		private function flashActive(e:Event = null):void 
 		{
 			if (paused) {
 				addEventListener(Event.ENTER_FRAME, movePendulo);
@@ -279,7 +282,7 @@ package
 			}
 		}
 		
-		private function flashDeactive(e:Event):void 
+		private function flashDeactive(e:Event = null):void 
 		{
 			if (hasEventListener(Event.ENTER_FRAME)) {
 				cronometer.pause();
@@ -301,6 +304,10 @@ package
 			//trace(classe);
 			
 			switch(classe) {
+				case "BolaPendulo":
+					setInfoMsg("Arraste o pêndulo para iniciar a animação.");
+					break;
+				
 				case "PenduloClassicoBtn":
 					setInfoMsg("Exibe/oculta o oscilador harmônico simples.");
 					break;

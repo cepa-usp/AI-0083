@@ -59,7 +59,7 @@ package
 			maxYRadio1 = 0;
 			maxYRadio2 = 0;
 			var xMin:Number = 0;
-			var xMax:Number = 25;
+			var xMax:Number = 20;
 			var largura:Number = 541;
 			var yMin:Number = -0.5;
 			var yMax:Number = 0.5;
@@ -216,7 +216,7 @@ package
 			if (radioName == "radio1")
 			{
 				xMin = 0;
-				xMax = 25;
+				xMax = 20;
 				if (maxYRadio1 != 0)
 				{
 					yMin = -maxYRadio1;
@@ -387,7 +387,7 @@ package
 					if (tetaxT[0] >= graph.xmax - 5)
 					{
 						graph.xmax = tetaxT[0] + 5;
-						graph.xmin = graph.xmax - 25;
+						graph.xmin = graph.xmax - 20;
 					}
 					//if (tetaxT[0] >= graph.xmax - 5)
 					//{
