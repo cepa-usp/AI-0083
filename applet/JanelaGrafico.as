@@ -135,8 +135,8 @@ package
 		
 		private function moving(e:MouseEvent):void 
 		{
-			this.x = stage.mouseX - posClick.x;
-			this.y = stage.mouseY - posClick.y;
+			this.x = Math.max(-this.width / 2, Math.min(stage.stageWidth - this.width / 2, stage.mouseX - posClick.x));
+			this.y = Math.max(-this.height / 2, Math.min(stage.stageHeight - this.height / 2, stage.mouseY - posClick.y));
 		}
 		
 		private function stopMoving(e:MouseEvent):void 

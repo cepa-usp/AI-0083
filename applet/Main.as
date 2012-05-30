@@ -163,6 +163,8 @@ package
 			cronoGrafico = new Cronometer();
 			
 			menu.grafico.alpha = 0.5;
+			menu.grafico.filters = [GRAYSCALE_FILTER];
+			menu.grafico.mouseEnabled = false;
 			grafico.visible = false;
 			
 			penduloClassico.visible = false;
@@ -583,9 +585,13 @@ package
 			pendulo.setL(parametros.comprimento);
 			grafico.resetGrafico();
 			menu.grafico.alpha = 1;
+			menu.grafico.filters = [];
+			menu.grafico.mouseEnabled = true;
 			if (parametros.teta == 0) 
 			{
 				menu.grafico.alpha = 0.5;
+				menu.grafico.filters = [GRAYSCALE_FILTER];
+				menu.grafico.mouseEnabled = false;
 				removeEventListener(Event.ENTER_FRAME, movePendulo);
 				pendulo.rotation = 0;
 				penduloClassico.rotation = 0;
@@ -594,6 +600,8 @@ package
 			else if (parametros.teta == 180)
 			{
 				menu.grafico.alpha = 0.5;
+				menu.grafico.filters = [GRAYSCALE_FILTER];
+				menu.grafico.mouseEnabled = false;
 				removeEventListener(Event.ENTER_FRAME, movePendulo);
 				pendulo.rotation = 180;
 				penduloClassico.rotation = 180;
@@ -617,10 +625,14 @@ package
 			pendulo.setL(parametros.comprimento);
 			grafico.resetGrafico();
 			menu.grafico.alpha = 1;
+			menu.grafico.filters = [];
+			menu.grafico.mouseEnabled = true;
 			parametros.teta = Number(pendulo.rotation.toFixed(0));
 			if (parametros.teta == 0) 
 			{
 				menu.grafico.alpha = 0.5;
+				menu.grafico.filters = [GRAYSCALE_FILTER];
+				menu.grafico.mouseEnabled = false;
 				removeEventListener(Event.ENTER_FRAME, movePendulo);
 				pendulo.rotation = 0;
 				penduloClassico.rotation = 0;
@@ -629,6 +641,8 @@ package
 			else if (parametros.teta == 180)
 			{
 				menu.grafico.alpha = 0.5;
+				menu.grafico.filters = [GRAYSCALE_FILTER];
+				menu.grafico.mouseEnabled = false;
 				removeEventListener(Event.ENTER_FRAME, movePendulo);
 				pendulo.rotation = 180;
 				penduloClassico.rotation = 180;
