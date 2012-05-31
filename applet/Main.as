@@ -151,8 +151,8 @@ package
 				addChild(cronometro);
 			}
 			cronometro.visible = false;
-			cronometro.x = cronometro.width / 2 + 45;
-			cronometro.y = cronometro.height / 2 + 5;
+			cronometro.x = stage.stageWidth - cronometro.width - 30;
+			cronometro.y = 30;
 			
 			if (grafico == null)
 			{
@@ -358,7 +358,7 @@ package
 				case "Start":
 					setInfoMsg("Inicia/pára o cronômetro.");
 					break;
-				case "Stop":
+				case "Reset":
 					setInfoMsg("Zera o cronômetro.");
 					break;
 					
