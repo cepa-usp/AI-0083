@@ -823,9 +823,9 @@ package
 			//else pendulo.rotation = posXAux[posArray][0] * 180 / Math.PI;
 			var cronoRead:Number = cronoGrafico.read() / 1000;
 			
-			if (cronoRead >= 300) 
-			{
-				reset(null);
+			//if (cronoRead >= 300) 
+			//{
+				//reset(null);
 				//removeEventListener(Event.ENTER_FRAME, movePendulo);
 				//
 				//pendulo.rotation = 0;
@@ -841,7 +841,7 @@ package
 				//
 				//if (grafico.visible) grafico.visible = false;
 				//menu.grafico.alpha = 0.5;
-			}
+			//}
 			
 			var derivadaPhi:Number = movePenduloClassico(cronoRead) * Math.PI / 180;
 			
