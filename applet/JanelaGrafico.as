@@ -76,6 +76,7 @@ package
 			graph.setSubticksDistance(SimpleGraph.AXIS_X, 1);
 			graph.setTicksDistance(SimpleGraph.AXIS_Y, 0.5);
 			graph.setSubticksDistance(SimpleGraph.AXIS_Y, 1);
+			graph.grid = false;
 			
 			graph.x = 29;
 			graph.y = 1;

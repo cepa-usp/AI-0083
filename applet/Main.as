@@ -260,7 +260,7 @@ package
 			
 			menu.addEventListener(MouseEvent.CLICK, menuClickHndler);
 			//stage.addEventListener(MouseEvent.MOUSE_DOWN, initPenduloMove);
-			//stage.addEventListener(MouseEvent.MOUSE_WHEEL, changeScalePendulo);
+			stage.addEventListener(MouseEvent.MOUSE_WHEEL, changeScalePendulo);
 			
 			stage.addEventListener(MouseEvent.MOUSE_OVER, setInfo);
 			stage.addEventListener(MouseEvent.MOUSE_OUT, setInfoOut);
@@ -452,7 +452,7 @@ package
 		{
 			if (grafico.visible)
 			{
-				if (e.delta > 0)
+				if (e.delta < 0)
 				{
 					grafico.redefineLimites(true);
 				}
@@ -460,7 +460,7 @@ package
 				{
 					grafico.redefineLimites(false);
 				}
-			}
+			}/*
 			else
 			{
 				if (e.delta > 0)
@@ -478,7 +478,7 @@ package
 				}
 				penduloClassico.scaleX = pendulo.scaleX;
 				penduloClassico.scaleY = pendulo.scaleY;
-			}
+			}*/
 		}
 		
 		private function initPenduloMove(e:MouseEvent):void 
