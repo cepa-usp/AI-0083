@@ -78,7 +78,11 @@ function configAi () {
   $( ".check-button3" ).button({ disabled: true });
   $( ".check-button4" ).button({ disabled: true });
   $( ".check-button5" ).button({ disabled: true });
-  
+  $('.check-button6').button({ disabled: true });
+  $('.check-button7').button({ disabled: true });
+  $('.check-button8').button({ disabled: true });
+  $('.check-button9').button({ disabled: true });
+  $('.check-button10').button({ disabled: true }); 
  
   
   //(Re)abilita os exercícios já feitos e desabilita aqueles ainda por fazer.
@@ -119,7 +123,8 @@ function selectExercise (exercise) {
 			
 		case 4:
 			console.log("Configurando o exercício 4");
-			
+			ai.setTeta(10);
+            ai.playAnimation();
 
 			break;
 			
@@ -142,7 +147,7 @@ function selectExercise (exercise) {
 			
 		case 8:
 			console.log("Configurando o exercício 8");
-			
+			console.log(ai.getPeriodo());
 
 			break;
 			
@@ -203,8 +208,6 @@ function iniciaAtividade(){
     select: function(event, ui) {
     
       screenExercise = ui.index;  
-	  selectExercise(screenExercise);
-	  
 	  ai.showHideMHS(false);
         
         if (screenExercise == 6) {
@@ -225,7 +228,7 @@ function iniciaAtividade(){
           ai.showHideGravidade(true);
         }
 	  
- 
+	selectExercise(screenExercise);
 	  
     }
   });
@@ -380,7 +383,14 @@ function initAI () {
     
     if (isNaN(scormExercise)) scormExercise = 1;
     if (isNaN(score)) score = 0;
+ 
+	scorm.set("cmi.score.min", 0);
+	scorm.set("cmi.score.max", 100);
     
+    // Posiciona o aluno no exercício da vez
+    screenExercise = scormExercise;
+    $('#exercicios').tabs("select", scormExercise - 1); 
+	
     pingLMS();
     
   }
@@ -401,11 +411,20 @@ function save2LMS () {
   if (scorm.connection.isActive) {
   
     // Salva no LMS a nota do aluno.
+	
     var success = scorm.set("cmi.score.raw", Math.round(score));
   
     // Notifica o LMS que esta atividade foi concluída.
     success = scorm.set("cmi.completion_status", (completed ? "completed" : "incomplete"));
+	
+	if (completed) {
+		scorm.set("cmi.exit", "normal");
+	} else { 
+		scorm.set("cmi.exit","suspend");
+	}
     
+	success = scorm.set("cmi.success_status", (score > 75 ? "passed" : "failed"));
+	
     // Salva no LMS o exercício que deve ser exibido quando a AI for acessada novamente.
     success = scorm.set("cmi.location", scormExercise);
     
@@ -429,9 +448,11 @@ function pingLMS () {
  * Avalia a resposta do aluno ao exercício atual. Esta função é executada sempre que ele pressiona "terminei".
  */ 
 function evaluateExercise (event) {
-  
+   
   // Avalia a nota
   var currentScore = getScore(screenExercise);
+  score += (currentScore / N_EXERCISES)/2;
+  
   if(exOk == false) return;
   console.log(screenExercise + "\t" + currentScore);
   // Mostra a mensagem de erro/acerto
@@ -439,18 +460,20 @@ function evaluateExercise (event) {
  
   // Atualiza a nota do LMS (apenas se a questão respondida é aquela esperada pelo LMS)
   if (!completed && screenExercise == scormExercise) {
-    score = Math.max(0, Math.min(score + currentScore, 100));
     
     if (scormExercise < N_EXERCISES) {
       nextExercise();
     }
     else {
+		score += 50;
+		score = Math.round(score);
       completed = true;
       scormExercise = 1;
       save2LMS();
       scorm.quit();
+	
     }
-  }
+  } 
 }
 
 /*
@@ -480,7 +503,7 @@ function getScore (exercise) {
     // Avalia a nota do exercício 1
     case 1:
     default: 
-		var user_answer_1 = ai.getTeta();
+		var user_answer_1 = Math.abs(ai.getTeta());
 		var right_answer_1 = 10;
 		var user_answer_2 = parseFloat($("#p_oscilacao").val().replace(",","."));
 		var right_answer_2 = ai.getPeriodo();
@@ -496,8 +519,8 @@ function getScore (exercise) {
 	    //Desabilita caixa de resposta e botão Terminei.
 	  	$( "#p_oscilacao" ).attr("disabled",true);
 		$( ".check-button" ).button({ disabled: true });
-	  
-		if (evaluate(user_answer_1, right_answer_1, TOLERANCE)) {
+	
+		if (Math.abs(user_answer_1 - right_answer_1) <= 2 ) {
 			ans += 100/2;
 		}
 		else {
@@ -514,7 +537,7 @@ function getScore (exercise) {
 		}
 		else {
 			$("#p_oscilacao").css("background-color", "#FA5858");
-			$('#message1a').html('O período correto é ' + right_answer_2.toFixed(1).replace(".",",") + 's.').removeClass().addClass("wrong-answer");
+			$('#message1a').html('O período correto é ' + right_answer_2.toFixed(1).replace(".",",") + ' s.').removeClass().addClass("wrong-answer");
 		}
 		
 		ans = Math.round(ans);
@@ -526,6 +549,14 @@ function getScore (exercise) {
 	    
 		var user_answer = parseFloat($("#p_calculado").val().replace(",","."));
 		var right_answer = 2 * Math.PI * Math.sqrt(ai.getComprimento() / ai.getGravidade());
+		
+		//Valores em branco?
+		var value01 = $("input[type=text][id=p_calculado]").val();
+		if (value01 == ''){ 
+			alert('Preencher todos os campos!');
+			exOk = false;
+			return;
+		}	 
 
 		//Desabilita caixa de resposta e botão Terminei.
 		$( "#p_calculado" ).attr("disabled",true);
@@ -551,7 +582,14 @@ function getScore (exercise) {
 		var right_answer = Math.abs(Math.sin(small_angle) - small_angle);
 		//console.log('resp_user:' + user_answer);
 		//console.log('resp_certa:' + right_answer);
- 
+ 		
+		//Valores em branco?
+		var value01 = $("input[type=text][id=e_maximo]").val();
+		if (value01 == ''){ 
+			alert('Preencher todos os campos!');
+			exOk = false;
+			return;
+		}	 
 	    //Desabilita caixa de resposta e botão Terminei.
 		$( "#e_maximo" ).attr("disabled",true);
 		$( ".check-button3" ).button({ disabled: true });
@@ -578,13 +616,23 @@ function getScore (exercise) {
 		var right_answer_2 = Math.sqrt(ai.getGravidade() / ai.getComprimento());
 		var user_answer_3 = parseFloat($("#f_angulos").val().replace(",","."));
 		var right_answer_3 = 0;
+        
+		//Valores em branco?
+		var value01 = $("input[type=text][id=a_angulos]").val();
+		var value02 = $("input[type=text][id=o_angulos]").val();
+		var value03 = $("input[type=text][id=f_angulos]").val();
+		if (value01 == '' || value02 == '' || value03 == ''){ 
+			alert('Preencher todos os campos!');
+			exOk = false;
+			return;
+		}	 
 		
 		//Desabilita caixa de resposta e botão Terminei.
 		$( "#a_angulos" ).attr("disabled",true);
 		$( "#o_angulos" ).attr("disabled",true);
 		$( "#f_angulos" ).attr("disabled",true);
 		$( ".check-button4" ).button({ disabled: true });
-      
+		
 		if (evaluate(user_answer_1, right_answer_1, TOLERANCE)) {
 			ans += 100/3;
 			$("#a_angulos").css("background-color", "#66CC33");
@@ -599,7 +647,7 @@ function getScore (exercise) {
 		}
 		else {
 			$("#o_angulos").css("background-color", "#FA5858");
-			$('#message4b').html('O (&omega;) correto é ' + right_answer_2.toFixed(2).replace(".",",") + ' rad/s.').removeClass().addClass("wrong-answer");
+			$('#message4b').html('O &omega; correto é ' + right_answer_2.toFixed(2).replace(".",",") + ' rad/s.').removeClass().addClass("wrong-answer");
 		}
 		if (evaluate(user_answer_3, right_answer_3, TOLERANCE)) {
 			ans += 100/3;
@@ -621,6 +669,15 @@ function getScore (exercise) {
 		var right_answer_1 = Math.sqrt(ai.getGravidade() / ai.getComprimento()) * (ai.getTeta() * Math.PI / 180);
 		var user_answer_2 = parseFloat($("#v_linear").val().replace(",","."));
 		var right_answer_2 = right_answer_1 * ai.getComprimento();
+		
+		//Valores em branco?
+		var value01 = $("input[type=text][id=d_theta]").val();
+		var value02 = $("input[type=text][id=v_linear]").val();
+		if (value01 == '' || value02 == ''){ 
+			alert('Preencher todos os campos!');
+			exOk = false;
+			return;
+		}	
 		
 		//Desabilita caixa de resposta e botão Terminei.
 		$( "#d_theta" ).attr("disabled",true);
@@ -655,6 +712,15 @@ function getScore (exercise) {
 		var right_answer_1 = Math.abs(ai.getTeta()) * Math.PI / 180;
 		var user_answer_2 = parseFloat($("#mx_angular").val().replace(",","."));
 		var right_answer_2 = ai.getVelocidade();
+		
+		//Valores em branco?
+		var value01 = $("input[type=text][id=m_theta]").val();
+		var value02 = $("input[type=text][id=mx_angular]").val();
+		if (value01 == '' || value02 == ''){ 
+			alert('Preencher todos os campos!');
+			exOk = false;
+			return;
+		}
 
 		//Desabilita caixa de resposta e botão Terminei.
 		$( "#m_theta" ).attr("disabled",true);
@@ -691,7 +757,17 @@ function getScore (exercise) {
 		var right_answer_1 = (5 * Math.PI / 180) / Math.cos(right_answer_3) /* A */
 		var user_answer_2 = parseFloat($("#oa_peq").val().replace(",","."));
 		var user_answer_3 = parseFloat($("#fa_peq").val().replace(",",".")); 
-		console.log(right_answer_2);
+		//console.log(right_answer_2);
+		
+		//Valores em branco?
+		var value01 = $("input[type=text][id=a_peq]").val();
+		var value02 = $("input[type=text][id=oa_peq]").val();
+		var value03 = $("input[type=text][id=fa_peq]").val();
+		if (value01 == '' || value02 == '' || value03 == ''){ 
+			alert('Preencher todos os campos!');
+			exOk = false;
+			return;
+		}		
 	      
 		//Desabilita caixa de resposta e botão Terminei.
 		$( "#a_peq" ).attr("disabled",true);
@@ -730,16 +806,24 @@ function getScore (exercise) {
 	  
 	// Avalia a nota do ex8
 	case 8:
-		var user_answer_1 = ai.getTeta();
+		var user_answer_1 = Math.abs(ai.getTeta());
 		var right_answer_1 = 90;
 		var user_answer_2 = parseFloat($("#pa_g").val().replace(",","."));
-		var right_answer_2 = ai.getPeriodo();
+		
 
+		//Valores em branco?
+		var value01 = $("input[type=text][id=pa_g]").val();
+		if (value01 == ''){ 
+			alert('Preencher todos os campos!');
+			exOk = false;
+			return;
+		}
+		
 		//Desabilita caixa de resposta e botão Terminei.
 		$( "#pa_g" ).attr("disabled",true);
 		$( ".check-button8" ).button({ disabled: true });
             
-		if (evaluate(user_answer_1, right_answer_1, TOLERANCE)) {
+		if (Math.abs(user_answer_1 - right_answer_1) <= 2 ) {
 			ans += 100/2;
 		}
 		else {
@@ -747,6 +831,7 @@ function getScore (exercise) {
 			ai.playAnimation();
 			$('#message8a').html('A amplitude deveria ser de 90º (já foi corrigida).').removeClass().addClass("wrong-answer");
 		}
+		var right_answer_2 = ai.getPeriodo();
 		if (evaluate(user_answer_2, right_answer_2, TOLERANCE)) {
 			ans += 100/2;
 			$("#pa_g").css("background-color", "#66CC33");
@@ -765,6 +850,14 @@ function getScore (exercise) {
 		var user_answer = parseFloat($("#err_max").val().replace(",","."));
 		var right_answer = Math.abs(Math.sin(big_angle) - big_angle) / Math.abs(Math.sin(small_angle) - small_angle);
 
+		//Valores em branco?
+		var value01 = $("input[type=text][id=err_max]").val();
+		if (value01 == ''){ 
+			alert('Preencher todos os campos!');
+			exOk = false;
+			return;
+		}		
+		
 		//Desabilita caixa de resposta e botão Terminei.
 		$( "#err_max" ).attr("disabled",true);
 		$( ".check-button9" ).button({ disabled: true });
@@ -786,6 +879,14 @@ function getScore (exercise) {
 		var user_answer = $("#planeta").val();
 		var right_answer = "Júpiter";
 		var succeeds = levenshteinDistance(user_answer.toLowerCase(), right_answer.toLowerCase()) < 2;
+ 
+		//Valores em branco?
+		var value01 = $("input[type=text][id=planeta]").val();
+		if (value01 == ''){ 
+			alert('Preencher todos os campos!');
+			exOk = false;
+			return;
+		} 
  
 		//Desabilita caixa de resposta e botão Terminei.
 		$( "#planeta" ).attr("disabled",true);
@@ -828,7 +929,7 @@ function feedback (exercise, score) {
 			$('#message2').html('Resposta correta!').removeClass().addClass("right-answer");
 		} else {			
 			var right_answer = 2 * Math.PI * Math.sqrt(ai.getComprimento() / ai.getGravidade());	  
-			$('#message2').html('O período correto é ' + right_answer.toFixed(1).replace(".",",") + '.').removeClass().addClass("wrong-answer");
+			$('#message2').html('O período correto é ' + right_answer.toFixed(1).replace(".",",") + ' s.').removeClass().addClass("wrong-answer");
 		}
 	  
     break;
