@@ -147,7 +147,7 @@ function selectExercise (exercise) {
 			
 		case 8:
 			console.log("Configurando o exercício 8");
-			
+			console.log(ai.getPeriodo());
 
 			break;
 			
@@ -383,7 +383,14 @@ function initAI () {
     
     if (isNaN(scormExercise)) scormExercise = 1;
     if (isNaN(score)) score = 0;
+ 
+	scorm.set("cmi.score.min", 0);
+	scorm.set("cmi.score.max", 100);
     
+    // Posiciona o aluno no exercício da vez
+    screenExercise = scormExercise;
+    $('#exercicios').tabs("select", scormExercise - 1); 
+	
     pingLMS();
     
   }
@@ -404,11 +411,20 @@ function save2LMS () {
   if (scorm.connection.isActive) {
   
     // Salva no LMS a nota do aluno.
+	
     var success = scorm.set("cmi.score.raw", Math.round(score));
   
     // Notifica o LMS que esta atividade foi concluída.
     success = scorm.set("cmi.completion_status", (completed ? "completed" : "incomplete"));
+	
+	if (completed) {
+		scorm.set("cmi.exit", "normal");
+	} else { 
+		scorm.set("cmi.exit","suspend");
+	}
     
+	success = scorm.set("cmi.success_status", (score > 75 ? "passed" : "failed"));
+	
     // Salva no LMS o exercício que deve ser exibido quando a AI for acessada novamente.
     success = scorm.set("cmi.location", scormExercise);
     
@@ -432,9 +448,11 @@ function pingLMS () {
  * Avalia a resposta do aluno ao exercício atual. Esta função é executada sempre que ele pressiona "terminei".
  */ 
 function evaluateExercise (event) {
-  
+   
   // Avalia a nota
   var currentScore = getScore(screenExercise);
+  score += (currentScore / N_EXERCISES)/2;
+  
   if(exOk == false) return;
   console.log(screenExercise + "\t" + currentScore);
   // Mostra a mensagem de erro/acerto
@@ -442,18 +460,20 @@ function evaluateExercise (event) {
  
   // Atualiza a nota do LMS (apenas se a questão respondida é aquela esperada pelo LMS)
   if (!completed && screenExercise == scormExercise) {
-    score = Math.max(0, Math.min(score + currentScore, 100));
     
     if (scormExercise < N_EXERCISES) {
       nextExercise();
     }
     else {
+		score += 50;
+		score = Math.round(score);
       completed = true;
       scormExercise = 1;
       save2LMS();
       scorm.quit();
+	
     }
-  }
+  } 
 }
 
 /*
@@ -789,7 +809,7 @@ function getScore (exercise) {
 		var user_answer_1 = Math.abs(ai.getTeta());
 		var right_answer_1 = 90;
 		var user_answer_2 = parseFloat($("#pa_g").val().replace(",","."));
-		var right_answer_2 = ai.getPeriodo();
+		
 
 		//Valores em branco?
 		var value01 = $("input[type=text][id=pa_g]").val();
@@ -811,6 +831,7 @@ function getScore (exercise) {
 			ai.playAnimation();
 			$('#message8a').html('A amplitude deveria ser de 90º (já foi corrigida).').removeClass().addClass("wrong-answer");
 		}
+		var right_answer_2 = ai.getPeriodo();
 		if (evaluate(user_answer_2, right_answer_2, TOLERANCE)) {
 			ans += 100/2;
 			$("#pa_g").css("background-color", "#66CC33");
