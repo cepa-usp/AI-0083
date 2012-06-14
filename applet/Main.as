@@ -79,6 +79,8 @@ package
 					ExternalInterface.addCallback("getVelocidade", parametros.getVelocidade);
 					ExternalInterface.addCallback("getSolution", getSolution);
 					
+					ExternalInterface.addCallback("setMassa", setMassa);
+					ExternalInterface.addCallback("setComprimento", setComprimento);
 					ExternalInterface.addCallback("setGravity", setGravity);
 					ExternalInterface.addCallback("setTeta", setTeta);
 					ExternalInterface.addCallback("showHideMHS", showHideMHS);
@@ -428,6 +430,16 @@ package
 		private function setTeta(teta:Number):void
 		{
 			parametros.teta = teta;
+		}
+		
+		private function setMassa(massa:Number):void 
+		{
+			parametros.massa = massa;
+		}
+		
+		private function setComprimento(comp:Number):void 
+		{
+			parametros.comprimento = comp;
 		}
 		
 		private function showHideGravidade(visivel:Boolean):void
