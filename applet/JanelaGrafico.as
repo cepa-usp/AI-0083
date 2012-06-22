@@ -7,6 +7,7 @@ package
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import flash.text.TextFormat;
 	/**
 	 * ...
 	 * @author Alexandre
@@ -77,6 +78,10 @@ package
 			graph.setTicksDistance(SimpleGraph.AXIS_Y, 0.5);
 			graph.setSubticksDistance(SimpleGraph.AXIS_Y, 1);
 			graph.grid = false;
+			
+			graph.setAxesNameFormat(new TextFormat("arial", 12, 0x000000));
+			graph.setAxisName(SimpleGraph.AXIS_Y, "ângulo (rad) ou velocidade angular (rad/s)");
+			graph.setAxisName(SimpleGraph.AXIS_X, "t(s)");
 			
 			graph.x = 29;
 			graph.y = 1;
@@ -151,6 +156,8 @@ package
 			if (e.target.name == "radio1")
 			{
 				graph.pan = false;
+				graph.setAxisName(SimpleGraph.AXIS_Y, "ângulo (rad) ou velocidade angular (rad/s)");
+				graph.setAxisName(SimpleGraph.AXIS_X, "t(s)");
 				if (!radio1Selec && pontosDTetaxTeta[0] != null)
 				{
 					maxYRadio2 = graph.ymax;
@@ -170,10 +177,16 @@ package
 				check3.enabled = true;
 				check4.enabled = true;
 				check2.enabled = false;
+				
+				//graphLabel.gotoAndStop(1);
+				//graphLabel.x = 36;
+				//graphLabel.y = 0;
 			}
 			else
 			{
 				graph.pan = true;
+				graph.setAxisName(SimpleGraph.AXIS_Y, "velocidade angular (rad/s)");
+				graph.setAxisName(SimpleGraph.AXIS_X, "ângulo (rad)");
 				if (radio1Selec && pontosTetaxT[0] != null)
 				{
 					maxYRadio1 = graph.ymax;
@@ -202,6 +215,10 @@ package
 				check3.enabled = false;
 				check4.enabled = false;
 				check2.enabled = true;
+				
+				//graphLabel.gotoAndStop(2);
+				//graphLabel.x = 36;
+				//graphLabel.y = 0;
 			}
 			//redefineGraph(e.target.name);
 			//graph.draw();
