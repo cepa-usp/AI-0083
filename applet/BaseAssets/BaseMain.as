@@ -137,6 +137,8 @@ package BaseAssets
 			addChild(resetTT);
 			addChild(infoTT);
 			
+			lock(botoes.resetButton);
+			
 			if (hasStats) {
 				var statsTT:ToolTip = new ToolTip(botoes.btEstatisticas, "Desempenho", 12, 0.8, 100, 0.6, 0.1);
 				addChild(statsTT);
