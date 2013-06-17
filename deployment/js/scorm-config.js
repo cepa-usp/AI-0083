@@ -733,7 +733,7 @@ function getScore (exercise) {
 		}
 		else {
 			$("#m_theta").css("background-color", "#FA5858");
-			$('#message6a').html('O ângulo correto é ' + right_answer_1.toFixed(2).replace(".",",") + ' rad/s.').removeClass().addClass("wrong-answer");
+			$('#message6a').html('O ângulo correto é ' + right_answer_1.toFixed(2).replace(".",",") + ' rad.').removeClass().addClass("wrong-answer");
 		}
 		if (evaluate(user_answer_2, right_answer_2, TOLERANCE)) {
 			ans += 100/2;
@@ -741,7 +741,7 @@ function getScore (exercise) {
 		}
 		else {
 			$("#mx_angular").css("background-color", "#FA5858");
-			$('#message6b').html('A velocidade angular correta é ' + right_answer_2.toFixed(2).replace(".",",") + ' m/s.').removeClass().addClass("wrong-answer");
+			$('#message6b').html('A velocidade angular correta é ' + right_answer_2.toFixed(2).replace(".",",") + ' rad/s.').removeClass().addClass("wrong-answer");
 		}
 	  
 	    ans = Math.round(ans);
@@ -781,7 +781,7 @@ function getScore (exercise) {
 		}
 		else {
 			$("#a_peq").css("background-color", "#FA5858");
-			$('#message7a').html('A amplitude correta é ' + right_answer_1.toFixed(2).replace(".",",") + ' rad/s.').removeClass().addClass("wrong-answer");
+			$('#message7a').html('A amplitude correta é ' + right_answer_1.toFixed(2).replace(".",",") + ' rad.').removeClass().addClass("wrong-answer");
 		}
 		if (evaluate(user_answer_2, right_answer_2, TOLERANCE)) {
 			ans += 100/3;
@@ -789,7 +789,7 @@ function getScore (exercise) {
 		}
 		else {
 			$("#oa_peq").css("background-color", "#FA5858");
-			$('#message7b').html('A velocidade angular correta é ' + right_answer_2.toFixed(2).replace(".",",") + ' m/s.').removeClass().addClass("wrong-answer");
+			$('#message7b').html('A velocidade angular correta é ' + right_answer_2.toFixed(2).replace(".",",") + ' rad/s.').removeClass().addClass("wrong-answer");
 		}
 		if (evaluate(user_answer_3, right_answer_3, TOLERANCE)) {
 			ans += 100/3;
@@ -797,7 +797,7 @@ function getScore (exercise) {
 		}
 		else {
 			$("#fa_peq").css("background-color", "#FA5858");
-			$('#message7c').html('A fase correta é ' + right_answer_3.toFixed(2).replace(".",",") + ' m/s.').removeClass().addClass("wrong-answer");
+			$('#message7c').html('A fase correta é ' + right_answer_3.toFixed(2).replace(".",",") + ' rad.').removeClass().addClass("wrong-answer");
 		}
 		
 	    ans = Math.round(ans); 
@@ -838,7 +838,7 @@ function getScore (exercise) {
 		}
 		else {
 			$("#pa_g").css("background-color", "#FA5858");
-			$('#message8b').html('O período correto é ' + right_answer_2.toFixed(2).replace(".",",") + ' m/s.').removeClass().addClass("wrong-answer");
+			$('#message8b').html('O período correto é ' + right_answer_2.toFixed(2).replace(".",",") + ' s.').removeClass().addClass("wrong-answer");
 		}		
 	  
 	break;
