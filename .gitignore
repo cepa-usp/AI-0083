@@ -6,3 +6,5 @@
 
 # Ignora qualquer pasta deploy: este não é repositório para isso
 deploy/
+
+publish.log
